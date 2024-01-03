@@ -12,6 +12,7 @@ interface RegisterUseCaseRequest {
 	city: string;
 	street: string;
 }
+
 export class RegisterUseCase {
 	constructor(
 		private orgsRepository: OrgsRepository,
@@ -26,8 +27,9 @@ export class RegisterUseCase {
 		whatsapp,
 		street,
 	}: RegisterUseCaseRequest) {
+    
 		const password_hash = await hash(password, 6);
-
+       
 		const address = await this.addressRepository.create({
 			city,
 			street,
@@ -39,12 +41,14 @@ export class RegisterUseCase {
 		if (orgWithSameEmail) {
 			throw new OrgsAlreadyExistsError();
 		}
-		await this.orgsRepository.create({
+		const org = await this.orgsRepository.create({
 			password_hash,
 			email,
 			name,
 			whatsapp,
 			address_id: address.id,
 		});
+	
+		return { org };
 	}
 }
