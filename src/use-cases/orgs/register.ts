@@ -2,6 +2,7 @@ import { AddressRepository } from "@/repositories/address-repository";
 import { OrgsRepository } from "@/repositories/orgs-repository";
 import { hash } from "bcryptjs";
 import { OrgsAlreadyExistsError } from "../errors/org-already-exists-error";
+import { Org } from "@prisma/client";
 
 interface RegisterUseCaseRequest {
 	name: string;
@@ -12,7 +13,9 @@ interface RegisterUseCaseRequest {
 	city: string;
 	street: string;
 }
-
+interface RegisterUseCaseResponse {
+	org: Org;
+}
 export class RegisterUseCase {
 	constructor(
 		private orgsRepository: OrgsRepository,
@@ -26,10 +29,9 @@ export class RegisterUseCase {
 		name,
 		whatsapp,
 		street,
-	}: RegisterUseCaseRequest) {
-    
+	}: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
 		const password_hash = await hash(password, 6);
-       
+
 		const address = await this.addressRepository.create({
 			city,
 			street,
@@ -41,6 +43,7 @@ export class RegisterUseCase {
 		if (orgWithSameEmail) {
 			throw new OrgsAlreadyExistsError();
 		}
+		
 		const org = await this.orgsRepository.create({
 			password_hash,
 			email,
@@ -48,7 +51,7 @@ export class RegisterUseCase {
 			whatsapp,
 			address_id: address.id,
 		});
-	
+
 		return { org };
 	}
 }
