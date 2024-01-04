@@ -15,10 +15,7 @@ describe("Register Use Case", () => {
 	it("should be able to register a pet", async () => {
 		const { pet } = await sut.execute({
 			age: 10,
-			breed: "shitzu",
-			color: "white",
-			characteristics: ["funny", "lazy"],
-			isAdopted: true,
+			
 			org_id: "20001345-43ef-4713-9efd-00dbcdc53ead",
 		});
 

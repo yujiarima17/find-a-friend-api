@@ -1,4 +1,3 @@
-import { InMemoryAddressRepository } from "@/repositories/in-memory/in-memory-adress-repository";
 import { InMemoryOrgsRepository } from "@/repositories/in-memory/in-memory-orgs-repository";
 import { NameAlreadyExistsError } from "@/use-cases/errors/org-name-already-exists-error";
 import { OrgsAlreadyExistsError } from "@/use-cases/errors/org-already-exists-error";
@@ -10,24 +9,22 @@ import { AddressAlreadyExistsError } from "@/use-cases/errors/org-address-alread
 
 describe("Register Use Case", () => {
 	let orgsRepository: InMemoryOrgsRepository;
-	let addressRepository: InMemoryAddressRepository;
 	let sut: RegisterUseCase;
 
 	beforeEach(() => {
 		orgsRepository = new InMemoryOrgsRepository();
-		addressRepository = new InMemoryAddressRepository();
-		sut = new RegisterUseCase(orgsRepository, addressRepository);
+		sut = new RegisterUseCase(orgsRepository);
 	});
 
 	it("should be able to register an org", async () => {
 		const { org } = await sut.execute({
-			addressNumber: 10,
-			city: "Sao Paulo",
+			adress: "Avenida Paulista",
+			adressNumber: 10,
+			cep: "00000-000",
+			owner: "Jimmy Arima",
 			email: "pet@example.com",
-			name: "Pet Org",
-			password: "Pet12345",
-			street: "Avenida Paulista ",
 			whatsapp: "55(11)999999999",
+			password: "123456",
 		});
 
 		expect(org.id).toEqual(expect.any(String));
@@ -35,17 +32,17 @@ describe("Register Use Case", () => {
 
 	it("should hash org password upon registration", async () => {
 		const { org } = await sut.execute({
-			addressNumber: 10,
-			city: "Sao Paulo",
+			adress: "Avenida Paulista",
+			adressNumber: 10,
+			cep: "00000-000",
+			owner: "Jimmy Arima",
 			email: "pet@example.com",
-			name: "Pet Org",
-			password: "Pet12345",
-			street: "Avenida Paulista",
 			whatsapp: "55(11)999999999",
+			password: "123456",
 		});
 
 		const isPasswordCorrectlyHashed = await compare(
-			"Pet12345",
+			"123456",
 			org.password_hash
 		);
 
@@ -56,24 +53,24 @@ describe("Register Use Case", () => {
 		const email = "pet@example.com";
 
 		await sut.execute({
-			addressNumber: 10,
-			city: "Sao Paulo",
+			adress: "Avenida Paulista",
+			adressNumber: 10,
+			cep: "00000-000",
+			owner: "Jimmy Arima",
 			email,
-			name: "Pet Org",
-			password: "Pet12345",
-			street: "Avenida Paulista",
 			whatsapp: "55(11)999999999",
+			password: "123456",
 		});
 
 		expect(() =>
 			sut.execute({
-				addressNumber: 11,
-				city: "Sao Paulo",
+				adress: "Avenida Paulista",
+				adressNumber: 10,
+				cep: "00000-000",
+				owner: "Jimmy Arima",
 				email,
-				name: "Pet Org",
-				password: "Pet12345",
-				street: "Avenida Paulista 1",
 				whatsapp: "55(11)999999999",
+				password: "123456",
 			})
 		).rejects.toBeInstanceOf(OrgsAlreadyExistsError);
 	});
@@ -82,77 +79,51 @@ describe("Register Use Case", () => {
 		const whatsapp = "55(11)999999999";
 
 		await sut.execute({
-			addressNumber: 10,
-			city: "Sao Paulo",
+			adress: "Avenida Paulista",
+			adressNumber: 10,
+			cep: "00000-000",
+			owner: "Jimmy Arima",
 			email: "pet@example.com",
-			name: "Pet Org",
-			password: "Pet12345",
-			street: "Avenida Paulista",
-			whatsapp: whatsapp,
+			whatsapp,
+			password: "123456",
 		});
 
 		expect(() =>
 			sut.execute({
-				addressNumber: 11,
-				city: "Sao Paulo",
+				adress: "Avenida Paulista",
+				adressNumber: 10,
+				cep: "00000-000",
+				owner: "Jimmy Arima",
 				email: "pet1@example.com",
-				name: "Pet Org",
-				password: "Pet12345",
-				street: "Avenida Paulista 1",
-				whatsapp: whatsapp,
+				whatsapp,
+				password: "123456",
 			})
 		).rejects.toBeInstanceOf(WhatsappAlreadyExistsError);
 	});
 
-	it("should not be able to register a name twice", async () => {
-		const name = "Jimmy Org";
-
-		await sut.execute({
-			addressNumber: 10,
-			city: "Sao Paulo",
-			email: "pet@example.com",
-			name,
-			password: "Pet12345",
-			street: "Avenida Paulista",
-			whatsapp: "55(11)999999999",
-		});
-
-		expect(() =>
-			sut.execute({
-				addressNumber: 11,
-				city: "Sao Paulo",
-				email: "pet1@example.com",
-				name,
-				password: "Pet12345",
-				street: "Avenida Paulista 1",
-				whatsapp: "55(11)999999998",
-			})
-		).rejects.toBeInstanceOf(NameAlreadyExistsError);
-	});
-
 	it("should not be able to register an address twice", async () => {
-		const street = "Avenida Paulista";
-		const addressNumber = 10;
+		const adress = "Avenida Paulista";
+		const adressNumber = 10;
 
 		await sut.execute({
-			addressNumber,
-			city: "Sao Paulo",
+			adress,
+			adressNumber,
+			cep: "00000-000",
+			owner: "Jimmy Arima",
 			email: "pet@example.com",
-			name: "Jimmy Org 1",
-			password: "Pet12345",
-			street,
 			whatsapp: "55(11)999999999",
+			password: "123456",
 		});
 
 		expect(() =>
 			sut.execute({
-				addressNumber,
-				city: "Sao Paulo",
+				adress,
+				adressNumber,
+				cep: "00000-000",
+				owner: "Jimmy Arima",
 				email: "pet1@example.com",
-				name: "Jimmy Org 2",
-				password: "Pet12345",
-				street,
 				whatsapp: "55(11)999999998",
+				password: "123456",
 			})
 		).rejects.toBeInstanceOf(AddressAlreadyExistsError);
 	});

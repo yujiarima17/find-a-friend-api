@@ -1,13 +1,17 @@
 import { PetsRepository } from "@/repositories/pets-repository";
-import { Pet } from "@prisma/client";
+import { $Enums, Pet } from "@prisma/client";
 
 interface RegisterUseCaseRequest {
-	breed: string;
-	color: string;
-	age: number;
-	characteristics: string[];
+	age: $Enums.PetAge;
+	name: string;
+	size: $Enums.PetSize;
+	energy: $Enums.EnergyLevel;
+	dependency_level: $Enums.DependencyLevel;
+	environment: $Enums.Environment;
+	about_me: string;
+	requirements: string;
+	photo: string;
 	org_id: string;
-	isAdopted: boolean;
 }
 interface RegisterUseCaseResponse {
 	pet: Pet;
@@ -20,10 +24,14 @@ export class RegisterUseCase {
 	): Promise<RegisterUseCaseResponse> {
 		const pet = await this.petsRepository.create({
 			age: data.age,
-			breed: data.breed,
-			color: data.color,
-			characteristics: data.characteristics,
-			is_adopted: data.isAdopted,
+			name: data.name,
+			size: data.size,
+			energy: data.energy,
+			dependency_level: data.dependency_level,
+			environment: data.environment,
+			about_me: data.about_me,
+			requirements: data.requirements,
+			photo: data.photo,
 			org_id: data.org_id,
 		});
 
