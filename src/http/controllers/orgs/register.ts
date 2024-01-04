@@ -1,10 +1,7 @@
-import { prisma } from "@/lib/prisma";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
-import { RegisterUseCase } from "@/use-cases/orgs/register";
-import { PrismaOrgsRepository } from "@/repositories/prisma/prisma-orgs-repository";
-import { PrismaAddressRepository } from "@/repositories/prisma/prisma-address-repository";
 import { OrgsAlreadyExistsError } from "@/use-cases/errors/org-already-exists-error";
+import { MakeRegisterUseCase } from "@/use-cases/factories/orgs/make-register-use-case";
 
 export async function register(request: FastifyRequest, reply: FastifyReply) {
 	const phoneRegex = new RegExp(
@@ -25,13 +22,7 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
 		registerBodySchema.parse(request.body);
 
 	try {
-		const prismaOrgsRepository = new PrismaOrgsRepository();
-		const prismaAddressRepository = new PrismaAddressRepository();
-
-		const registerUseCase = new RegisterUseCase(
-			prismaOrgsRepository,
-			prismaAddressRepository
-		);
+		const registerUseCase = MakeRegisterUseCase();
 
 		await registerUseCase.execute({
 			email,

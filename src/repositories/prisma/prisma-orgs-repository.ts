@@ -4,18 +4,38 @@ import { OrgsRepository } from "../orgs-repository";
 
 export class PrismaOrgsRepository implements OrgsRepository {
 	async create(data: Prisma.OrgUncheckedCreateInput) {
-		const user = await prisma.org.create({
+		const org = await prisma.org.create({
 			data,
 		});
-		return user;
+		return org;
 	}
+
+	async findByWhatsapp(whatsapp: string) {
+		const org = await prisma.org.findUnique({
+			where: {
+				whatsapp,
+			},
+		});
+		return org;
+	}
+
 	async findByEmail(email: string) {
-		const user = await prisma.org.findUnique({
+		const org = await prisma.org.findUnique({
 			where: {
 				email,
 			},
 		});
 
-		return user;
+		return org;
+	}
+
+	async findByName(name: string) {
+		const org = await prisma.org.findUnique({
+			where: {
+				name,
+			},
+		});
+
+		return org;
 	}
 }

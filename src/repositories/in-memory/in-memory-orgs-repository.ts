@@ -13,8 +13,25 @@ export class InMemoryOrgsRepository implements OrgsRepository {
 		return org;
 	}
 
-	async create(data: Prisma.OrgUncheckedCreateInput) {
+	async findByName(name: string) {
+		const org = this.items.find((item) => item.name === name);
 
+		if (!org) {
+			return null;
+		}
+		return org;
+	}
+
+	async findByWhatsapp(whatsapp: string) {
+		const org = this.items.find((item) => item.whatsapp === whatsapp);
+
+		if (!org) {
+			return null;
+		}
+		return org;
+	}
+
+	async create(data: Prisma.OrgUncheckedCreateInput) {
 		const org = {
 			id: "org-id",
 			name: data.name,
