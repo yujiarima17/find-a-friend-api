@@ -32,7 +32,7 @@ model Pet {
   is_adopted      Boolean
   created_at      DateTime @default(now())
   characteristics String[]
-  org_id          String   @unique
+  org_id          String   
   org             Org      @relation(fields: [org_id], references: [id])
 
   @@map("pets")

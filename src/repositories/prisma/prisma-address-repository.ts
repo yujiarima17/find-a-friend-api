@@ -9,4 +9,25 @@ export class PrismaAddressRepository implements AddressRepository {
 		});
 		return address;
 	}
+
+	async findById(id: string) {
+		const address = await prisma.address.findUnique({
+			where: {
+				id,
+			},
+		});
+
+		return address;
+	}
+
+	async findByNumberAndStreet(street: string, number: number) {
+		const address = await prisma.address.findFirst({
+			where: {
+				street,
+				number,
+			},
+		});
+
+		return address;
+	}
 }
