@@ -1,37 +1,32 @@
-import { AddressRepository } from "@/repositories/address-repository";
 import { OrgsRepository } from "@/repositories/orgs-repository";
 import { hash } from "bcryptjs";
 import { OrgsAlreadyExistsError } from "../errors/org-already-exists-error";
 import { Org } from "@prisma/client";
-import { NameAlreadyExistsError } from "../errors/org-name-already-exists-error";
-import { AddressAlreadyExistsError } from "../errors/org-address-already-exists";
 import { WhatsappAlreadyExistsError } from "../errors/org-whatsapp-already-exists-error";
+import { AddressAlreadyExistsError } from "../errors/org-address-already-exists";
 
 interface RegisterUseCaseRequest {
-	name: string;
 	password: string;
 	email: string;
-	addressNumber: number;
+	adressNumber: number;
 	whatsapp: string;
-	city: string;
-	street: string;
+	cep: string;
+	owner: string;
+	adress: string;
 }
 interface RegisterUseCaseResponse {
 	org: Org;
 }
 export class RegisterUseCase {
-	constructor(
-		private orgsRepository: OrgsRepository,
-		private addressRepository: AddressRepository
-	) {}
+	constructor(private orgsRepository: OrgsRepository) {}
 	async execute({
 		password,
-		addressNumber,
-		city,
+		adressNumber,
+		owner,
 		email,
-		name,
+		adress,
+		cep,
 		whatsapp,
-		street,
 	}: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
 		const password_hash = await hash(password, 6);
 
@@ -41,11 +36,9 @@ export class RegisterUseCase {
 
 		const orgWithSameEmail = await this.orgsRepository.findByEmail(email);
 
-		const orgWithSameName = await this.orgsRepository.findByName(name);
-
-		const orgsWithSameAddress =
-			await this.addressRepository.findByNumberAndStreet(street, addressNumber);
-
+		const orgWithSameAdressAndNumber =
+			await this.orgsRepository.findByAdressAndNumber(adress, adressNumber);
+		
 		if (orgWithSameEmail) {
 			throw new OrgsAlreadyExistsError();
 		}
@@ -54,25 +47,17 @@ export class RegisterUseCase {
 			throw new WhatsappAlreadyExistsError();
 		}
 
-		if (orgWithSameName) {
-			throw new NameAlreadyExistsError();
-		}
-
-		if (orgsWithSameAddress) {
+		if (orgWithSameAdressAndNumber) {
 			throw new AddressAlreadyExistsError();
 		}
-		const address = await this.addressRepository.create({
-			city,
-			street,
-			number: addressNumber,
-		});
-
 		const org = await this.orgsRepository.create({
 			password_hash,
 			email,
-			name,
 			whatsapp,
-			address_id: address.id,
+			adress,
+			adress_number: adressNumber,
+			cep,
+			owner,
 		});
 
 		return { org };

@@ -10,10 +10,12 @@ describe("Register Use Case", () => {
 		const sut = new AuthenticateUseCase(orgsRepository);
 
 		await orgsRepository.create({
-			address_id: "address-id",
+			adress: "Avenida Paulista",
+			adress_number: 1,
+			cep: "00000-000",
+			owner: "Jimmy Arima",
 			email: "pet@example.com",
 			password_hash: await hash("123456", 6),
-			name: "Pet Org",
 			whatsapp: "55(11)999999999",
 		});
 
@@ -30,10 +32,12 @@ describe("Register Use Case", () => {
 		const sut = new AuthenticateUseCase(orgsRepository);
 
 		await orgsRepository.create({
-			address_id: "address-id",
+			adress: "Avenida Paulista",
+			adress_number: 1,
+			cep: "00000-000",
+			owner: "Jimmy Arima",
 			email: "pet@example.com",
 			password_hash: await hash("123456", 6),
-			name: "Pet Org",
 			whatsapp: "55(11)999999999",
 		});
 
@@ -51,10 +55,12 @@ describe("Register Use Case", () => {
 		const sut = new AuthenticateUseCase(orgsRepository);
 
 		await orgsRepository.create({
-			address_id: "address-id",
+			adress: "Avenida Paulista",
+			adress_number: 1,
+			cep: "00000-000",
+			owner: "Jimmy Arima",
 			email: "pet@example.com",
 			password_hash: await hash("123456", 6),
-			name: "Pet Org",
 			whatsapp: "55(11)999999999",
 		});
 

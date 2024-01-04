@@ -13,15 +13,6 @@ export class InMemoryOrgsRepository implements OrgsRepository {
 		return org;
 	}
 
-	async findByName(name: string) {
-		const org = this.items.find((item) => item.name === name);
-
-		if (!org) {
-			return null;
-		}
-		return org;
-	}
-
 	async findByWhatsapp(whatsapp: string) {
 		const org = this.items.find((item) => item.whatsapp === whatsapp);
 
@@ -31,11 +22,24 @@ export class InMemoryOrgsRepository implements OrgsRepository {
 		return org;
 	}
 
+	async findByAdressAndNumber(adress: string, adressNumber: number) {
+		const org = this.items.find(
+			(item) => item.adress === adress && item.adress_number === adressNumber
+		);
+
+		if (!org) {
+			return null;
+		}
+		return org;
+	}
+	
 	async create(data: Prisma.OrgUncheckedCreateInput) {
 		const org = {
 			id: "org-id",
-			name: data.name,
-			address_id: data.address_id,
+			adress: data.adress,
+			owner: data.owner,
+			adress_number: data.adress_number,
+			cep: data.cep,
 			email: data.email,
 			created_at: new Date(),
 			password_hash: data.password_hash,

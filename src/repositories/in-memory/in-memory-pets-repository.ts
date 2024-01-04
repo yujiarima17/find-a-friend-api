@@ -7,10 +7,14 @@ export class InMemoryPetsRepository implements PetsRepository {
 		const pet = {
 			id: "pet-id",
 			age: data.age,
-			color: data.color,
-			characteristics: data.characteristics as string[],
-			breed: data.breed,
-			is_adopted: data.is_adopted,
+			size: data.size,
+			energy: data.energy,
+			environment: data.environment,
+			name: data.name,
+			dependency_level: data.dependency_level,
+			about_me: data.about_me,
+			requirements: data.requirements,
+			photo: data.photo,
 			created_at: new Date(),
 			org_id: data.org_id,
 		};

@@ -8,17 +8,21 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
 		/([0-9]{2,3})?(\([0-9]{2}\))([0-9]{4,5})([0-9]{4})/
 	);
 
+	const cepRegex = new RegExp(/^\d{5}-\d{3}$/);
+
 	const registerBodySchema = z.object({
-		name: z.string(),
+		owner: z.string(),
 		email: z.string().email(),
 		password: z.string().min(6),
 		whatsapp: z.string().regex(phoneRegex),
 		street: z.string(),
-		addressNumber: z.number(),
+		cep: z.string().regex(cepRegex),
+		adress: z.string(),
+		adressNumber: z.number(),
 		city: z.string(),
 	});
 
-	const { email, name, password, whatsapp, addressNumber, city, street } =
+	const { email, owner, password, whatsapp, adressNumber, adress, cep } =
 		registerBodySchema.parse(request.body);
 
 	try {
@@ -26,12 +30,12 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
 
 		await registerUseCase.execute({
 			email,
-			name,
+			owner,
 			password,
 			whatsapp,
-			addressNumber,
-			city,
-			street,
+			adressNumber,
+			adress,
+			cep,
 		});
 	} catch (error) {
 		if (error instanceof OrgsAlreadyExistsError) {

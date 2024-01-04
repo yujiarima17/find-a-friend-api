@@ -29,10 +29,11 @@ export class PrismaOrgsRepository implements OrgsRepository {
 		return org;
 	}
 
-	async findByName(name: string) {
-		const org = await prisma.org.findUnique({
+	async findByAdressAndNumber(adress: string, adressNumber: number) {
+		const org = await prisma.org.findFirst({
 			where: {
-				name,
+				adress,
+				adress_number: adressNumber,
 			},
 		});
 
