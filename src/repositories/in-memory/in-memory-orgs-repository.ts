@@ -1,5 +1,6 @@
 import { Org, Prisma } from "@prisma/client";
 import { OrgsRepository } from "../orgs-repository";
+import { randomUUID } from "crypto";
 
 export class InMemoryOrgsRepository implements OrgsRepository {
 	public items: Org[] = [];
@@ -22,6 +23,20 @@ export class InMemoryOrgsRepository implements OrgsRepository {
 		return org;
 	}
 
+	async findAdressById(id: string) {
+		const org = this.items.find((item) => item.id === id);
+		if (!org) {
+			return null;
+		}
+		const orgLocation = {
+			adress: org.adress,
+			adressNumber: org.adress_number,
+			cep: org.cep,
+		};
+
+		return orgLocation;
+	}
+
 	async findByAdressAndNumber(adress: string, adressNumber: number) {
 		const org = this.items.find(
 			(item) => item.adress === adress && item.adress_number === adressNumber
@@ -32,10 +47,10 @@ export class InMemoryOrgsRepository implements OrgsRepository {
 		}
 		return org;
 	}
-	
+
 	async create(data: Prisma.OrgUncheckedCreateInput) {
 		const org = {
-			id: "org-id",
+			id: randomUUID(),
 			adress: data.adress,
 			owner: data.owner,
 			adress_number: data.adress_number,

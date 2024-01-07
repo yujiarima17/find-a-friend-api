@@ -9,7 +9,7 @@ interface RegisterUseCaseRequest {
 	dependency_level: $Enums.DependencyLevel;
 	environment: $Enums.Environment;
 	about_me: string;
-	requirements: string;
+	requirements: string[];
 	photo: string;
 	org_id: string;
 }

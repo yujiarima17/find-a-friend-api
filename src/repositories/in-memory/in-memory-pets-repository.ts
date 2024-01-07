@@ -13,11 +13,12 @@ export class InMemoryPetsRepository implements PetsRepository {
 			name: data.name,
 			dependency_level: data.dependency_level,
 			about_me: data.about_me,
-			requirements: data.requirements,
+			requirements: data.requirements as string[],
 			photo: data.photo,
 			created_at: new Date(),
 			org_id: data.org_id,
 		};
+
 		this.items.push(pet);
 
 		return pet;
@@ -29,7 +30,7 @@ export class InMemoryPetsRepository implements PetsRepository {
 		if (!pet) {
 			return null;
 		}
-		
+
 		return pet;
 	}
 }

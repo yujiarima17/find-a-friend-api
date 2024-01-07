@@ -18,7 +18,7 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
 		dependencyLevel: PetDependencyLevelEnum,
 		environment: PetEnvironmentEnum,
 		about_me: z.string(),
-		requirements: z.string(),
+		requirements: z.string().array(),
 		photo: z.string(),
 	});
 

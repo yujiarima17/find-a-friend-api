@@ -51,7 +51,7 @@ model Org {
 }
 
 model Pet {
-  id               String         @id @default(uuid())
+  id               String          @id @default(uuid())
   age              PetAge
   name             String
   size             PetSize
@@ -59,10 +59,10 @@ model Pet {
   dependency_level DependencyLevel
   environment      Environment
   about_me         String
-  requirements     String
+  requirements     String[]
   photo            String
   org_id           String
-  org              Org            @relation(fields: [org_id], references: [id])
+  org              Org             @relation(fields: [org_id], references: [id])
 
   @@map("pets")
 }

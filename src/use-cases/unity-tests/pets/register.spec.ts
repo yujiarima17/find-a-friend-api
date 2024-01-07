@@ -21,7 +21,7 @@ describe("Register Use Case", () => {
 			dependency_level: "Alto",
 			environment: "Aberto",
 			about_me: "Funny Dog",
-			requirements: "Food and Walk",
+			requirements: ["Food and Walk"],
 			photo: "jimmyCute.png",
 			org_id: "20001345-43ef-4713-9efd-00dbcdc53ead",
 		});

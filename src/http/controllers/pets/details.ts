@@ -2,17 +2,17 @@ import { MakeGetPetDetailsUseCase } from "@/use-cases/factories/pets/make-get-pe
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 export async function details(request: FastifyRequest, reply: FastifyReply) {
-	const registerParamsSchema = z.object({
+	const detailsParamsSchema = z.object({
 		petId: z.string().uuid(),
 	});
 
-	const { petId } = registerParamsSchema.parse(request.params);
+	const { petId } = detailsParamsSchema.parse(request.params);
 
-	const registerUseCase = MakeGetPetDetailsUseCase();
+	const detailsUseCase = MakeGetPetDetailsUseCase();
 
-	const { pet } = await registerUseCase.execute({
+	const { pet, location } = await detailsUseCase.execute({
 		petId: petId,
 	});
 
-	return reply.status(200).send({ pet });
+	return reply.status(200).send({ pet, location });
 }

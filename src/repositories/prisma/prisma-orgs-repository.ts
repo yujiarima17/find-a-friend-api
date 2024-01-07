@@ -9,7 +9,25 @@ export class PrismaOrgsRepository implements OrgsRepository {
 		});
 		return org;
 	}
+	async findAdressById(id: string) {
+		const org = await prisma.org.findUnique({
+			where: {
+				id,
+			},
+		});
 
+		if (!org) {
+			return null;
+		}
+
+		const orgLocation = {
+			adress: org.adress,
+			adressNumber: org.adress_number,
+			cep: org.cep,
+		};
+		
+		return orgLocation;
+	}
 	async findByWhatsapp(whatsapp: string) {
 		const org = await prisma.org.findUnique({
 			where: {
