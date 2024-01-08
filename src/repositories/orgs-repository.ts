@@ -18,4 +18,6 @@ export interface OrgsRepository {
 		adress: string,
 		adressNumber: number
 	): Promise<Org | null>;
+
+	findByStateAndCity(state: string, city: string): Promise<string[] | null>;
 }

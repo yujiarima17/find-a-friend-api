@@ -1,15 +1,15 @@
 import { MakeRegisterUseCase } from "@/use-cases/factories/pets/make-register-use-case";
-import { $Enums } from "@prisma/client";
+import {
+	PetAgeEnum,
+	PetDependencyLevelEnum,
+	PetEnergyEnum,
+	PetEnvironmentEnum,
+	PetSizeEnum,
+} from "@/utils/enums-pets-zod";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
+
 export async function register(request: FastifyRequest, reply: FastifyReply) {
-
-	const PetAgeEnum = z.nativeEnum($Enums.PetAge);
-	const PetSizeEnum = z.nativeEnum($Enums.PetSize);
-	const PetEnergyEnum = z.nativeEnum($Enums.EnergyLevel);
-	const PetDependencyLevelEnum = z.nativeEnum($Enums.DependencyLevel);
-	const PetEnvironmentEnum = z.nativeEnum($Enums.Environment);
-
 	const registerBodySchema = z.object({
 		age: PetAgeEnum,
 		name: z.string(),

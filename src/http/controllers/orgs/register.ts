@@ -27,14 +27,10 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
 	try {
 		const registerUseCase = MakeRegisterUseCase();
 
-		const { city, state } = await findCityAndStateByCep(cep);
-
 		await registerUseCase.execute({
 			email,
 			owner,
 			password,
-			city,
-			state,
 			whatsapp,
 			adressNumber,
 			adress,
