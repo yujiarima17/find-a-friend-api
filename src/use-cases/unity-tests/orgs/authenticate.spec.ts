@@ -12,11 +12,11 @@ describe("Authenticate Use Case", () => {
 		orgsRepository = new InMemoryOrgsRepository();
 		sut = new AuthenticateUseCase(orgsRepository);
 	});
-	
-	it("should be able to authenticate an org", async () => {
-	
 
+	it("should be able to authenticate an org", async () => {
 		await orgsRepository.create({
+			state: "SP",
+			city: "Sao Paulo",
 			adress: "Avenida Paulista",
 			adress_number: 1,
 			cep: "00000-000",
@@ -35,9 +35,9 @@ describe("Authenticate Use Case", () => {
 	});
 
 	it("should not be able to authenticate a wrong email", async () => {
-
-
 		await orgsRepository.create({
+			state: "SP",
+			city: "Sao Paulo",
 			adress: "Avenida Paulista",
 			adress_number: 1,
 			cep: "00000-000",
@@ -57,9 +57,9 @@ describe("Authenticate Use Case", () => {
 	});
 
 	it("should not be able to authenticate a wrong password", async () => {
-
-
 		await orgsRepository.create({
+			state: "SP",
+			city: "Sao Paulo",
 			adress: "Avenida Paulista",
 			adress_number: 1,
 			cep: "00000-000",

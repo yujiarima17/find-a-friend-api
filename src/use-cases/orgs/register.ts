@@ -4,6 +4,8 @@ import { OrgsAlreadyExistsError } from "../errors/org-already-exists-error";
 import { Org } from "@prisma/client";
 import { WhatsappAlreadyExistsError } from "../errors/org-whatsapp-already-exists-error";
 import { AddressAlreadyExistsError } from "../errors/org-address-already-exists";
+import { findCityAndStateByCep } from "@/utils/find-city-and-state-by-cep";
+import { InvalidCepError } from "../errors/invalid-cep-error";
 
 interface RegisterUseCaseRequest {
 	password: string;
@@ -13,8 +15,6 @@ interface RegisterUseCaseRequest {
 	cep: string;
 	owner: string;
 	adress: string;
-	city: string;
-	state: string;
 }
 interface RegisterUseCaseResponse {
 	org: Org;
@@ -25,11 +25,9 @@ export class RegisterUseCase {
 		password,
 		adressNumber,
 		owner,
+		cep,
 		email,
 		adress,
-		cep,
-		city,
-		state,
 		whatsapp,
 	}: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
 		const password_hash = await hash(password, 6);
@@ -54,7 +52,13 @@ export class RegisterUseCase {
 		if (orgWithSameAdressAndNumber) {
 			throw new AddressAlreadyExistsError();
 		}
-		
+
+		const response = await findCityAndStateByCep(cep);
+        console.log(response)
+		if (!response) {
+			throw new InvalidCepError();
+		}
+
 		const org = await this.orgsRepository.create({
 			password_hash,
 			email,
@@ -62,8 +66,8 @@ export class RegisterUseCase {
 			adress,
 			adress_number: adressNumber,
 			cep,
-			city,
-			state,
+			city: response.city,
+			state: response.state,
 			owner,
 		});
 

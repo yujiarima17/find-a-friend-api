@@ -7,11 +7,15 @@ interface findCityAndStateByCepResponse {
 }
 export async function findCityAndStateByCep(
 	cep: string
-): Promise<findCityAndStateByCepResponse> {
+): Promise<findCityAndStateByCepResponse | null> {
 	const response = await axios
 		.get(`https://viacep.com.br/ws/${cep}/json/`)
-		.then((value) => value.data)
-		.catch((err) => new InvalidCepError());
+		.then((value) => value.data);
+
+	if (response.erro) {
+		console.log('oi')
+		return null;
+	}
 	const { uf, localidade } = response;
 
 	return { city: uf, state: localidade };
