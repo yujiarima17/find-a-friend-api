@@ -13,6 +13,8 @@ interface RegisterUseCaseRequest {
 	cep: string;
 	owner: string;
 	adress: string;
+	city: string;
+	state: string;
 }
 interface RegisterUseCaseResponse {
 	org: Org;
@@ -26,6 +28,8 @@ export class RegisterUseCase {
 		email,
 		adress,
 		cep,
+		city,
+		state,
 		whatsapp,
 	}: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
 		const password_hash = await hash(password, 6);
@@ -38,7 +42,7 @@ export class RegisterUseCase {
 
 		const orgWithSameAdressAndNumber =
 			await this.orgsRepository.findByAdressAndNumber(adress, adressNumber);
-		
+
 		if (orgWithSameEmail) {
 			throw new OrgsAlreadyExistsError();
 		}
@@ -50,6 +54,7 @@ export class RegisterUseCase {
 		if (orgWithSameAdressAndNumber) {
 			throw new AddressAlreadyExistsError();
 		}
+		
 		const org = await this.orgsRepository.create({
 			password_hash,
 			email,
@@ -57,6 +62,8 @@ export class RegisterUseCase {
 			adress,
 			adress_number: adressNumber,
 			cep,
+			city,
+			state,
 			owner,
 		});
 

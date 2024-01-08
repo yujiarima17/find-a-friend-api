@@ -2,6 +2,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { OrgsAlreadyExistsError } from "@/use-cases/errors/org-already-exists-error";
 import { MakeRegisterUseCase } from "@/use-cases/factories/orgs/make-register-use-case";
+import { findCityAndStateByCep } from "@/utils/find-city-and-state-by-cep";
 
 export async function register(request: FastifyRequest, reply: FastifyReply) {
 	const phoneRegex = new RegExp(
@@ -15,11 +16,9 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
 		email: z.string().email(),
 		password: z.string().min(6),
 		whatsapp: z.string().regex(phoneRegex),
-		street: z.string(),
 		cep: z.string().regex(cepRegex),
 		adress: z.string(),
 		adressNumber: z.number(),
-		city: z.string(),
 	});
 
 	const { email, owner, password, whatsapp, adressNumber, adress, cep } =
@@ -28,10 +27,14 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
 	try {
 		const registerUseCase = MakeRegisterUseCase();
 
+		const { city, state } = await findCityAndStateByCep(cep);
+
 		await registerUseCase.execute({
 			email,
 			owner,
 			password,
+			city,
+			state,
 			whatsapp,
 			adressNumber,
 			adress,

@@ -56,10 +56,13 @@ export class InMemoryOrgsRepository implements OrgsRepository {
 			adress_number: data.adress_number,
 			cep: data.cep,
 			email: data.email,
+			city: data.cep,
+			state: data.state,
 			created_at: new Date(),
 			password_hash: data.password_hash,
 			whatsapp: data.whatsapp,
 		};
+
 		this.items.push(org);
 
 		return org;

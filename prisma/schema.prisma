@@ -39,6 +39,8 @@ model Org {
   id            String   @id @default(uuid())
   owner         String
   cep           String
+  state         String
+  city          String
   created_at    DateTime @default(now())
   email         String   @unique
   password_hash String
