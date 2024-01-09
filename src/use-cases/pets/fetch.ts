@@ -5,6 +5,7 @@ import {
 import { Pet } from "@prisma/client";
 import { ResourceNotFoundError } from "../errors/resource-not-found-error";
 import { OrgsRepository } from "@/repositories/orgs-repository";
+import { InvalidCityInputError } from "../errors/invalid-city-input-error";
 
 interface FilterByCharacteristicsUseCaseResponse {
 	pets: Pet[];
@@ -14,7 +15,6 @@ interface FilterByCharacteristicsUseCaseRequest
 export class FetchPetsByCharacteristicsUseCase {
 	constructor(
 		private petsRepository: PetsRepository,
-		private orgsRepository: OrgsRepository
 	) {}
 	async execute(
 		data: FilterByCharacteristicsUseCaseRequest

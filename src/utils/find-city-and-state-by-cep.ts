@@ -13,7 +13,6 @@ export async function findCityAndStateByCep(
 		.then((value) => value.data);
 
 	if (response.erro) {
-		console.log('oi')
 		return null;
 	}
 	const { uf, localidade } = response;

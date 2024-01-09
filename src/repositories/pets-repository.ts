@@ -4,9 +4,9 @@ export interface FilterByCharacteristicsSearchProps {
 	city: string;
 	state?: string 
 	age?: $Enums.PetAge
-	energyLevel?: $Enums.EnergyLevel
+	energy?: $Enums.EnergyLevel
 	size?: $Enums.PetSize
-	dependencyLevel?: $Enums.DependencyLevel 
+	dependency_level?: $Enums.DependencyLevel 
 }
 export interface PetsRepository {
 	create(data: Prisma.PetUncheckedCreateInput): Promise<Pet>;

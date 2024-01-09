@@ -25,9 +25,11 @@ export class InMemoryOrgsRepository implements OrgsRepository {
 
 	async findAdressById(id: string) {
 		const org = this.items.find((item) => item.id === id);
+
 		if (!org) {
 			return null;
 		}
+
 		const orgLocation = {
 			adress: org.adress,
 			adressNumber: org.adress_number,
@@ -50,13 +52,13 @@ export class InMemoryOrgsRepository implements OrgsRepository {
 
 	async create(data: Prisma.OrgUncheckedCreateInput) {
 		const org = {
-			id: randomUUID(),
+			id: data.id ?? randomUUID(),
 			adress: data.adress,
 			owner: data.owner,
 			adress_number: data.adress_number,
 			cep: data.cep,
 			email: data.email,
-			city: data.cep,
+			city: data.city,
 			state: data.state,
 			created_at: new Date(),
 			password_hash: data.password_hash,
@@ -66,5 +68,19 @@ export class InMemoryOrgsRepository implements OrgsRepository {
 		this.items.push(org);
 
 		return org;
+	}
+	
+	async findByStateAndCity(city: string, state?: string) {
+		const orgs = this.items.filter(
+			(item) => item.state === state && item.city === city
+		);
+
+		const orgsId = orgs.map((org) => org.id);
+
+		if (orgs.length === 0) {
+			return null;
+		}
+
+		return orgsId;
 	}
 }

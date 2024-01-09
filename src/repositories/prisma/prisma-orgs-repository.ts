@@ -25,7 +25,7 @@ export class PrismaOrgsRepository implements OrgsRepository {
 			adressNumber: org.adress_number,
 			cep: org.cep,
 		};
-		
+
 		return orgLocation;
 	}
 	async findByWhatsapp(whatsapp: string) {
@@ -56,5 +56,20 @@ export class PrismaOrgsRepository implements OrgsRepository {
 		});
 
 		return org;
+	}
+	async findByStateAndCity(
+		city: string ,
+		state?: string ,
+	) {
+		const orgs = await prisma.org.findMany({
+			where: {
+				state,
+				city,
+			},
+		});
+
+		const orgsId = orgs.map((org) => org.id);
+		
+		return orgsId;
 	}
 }

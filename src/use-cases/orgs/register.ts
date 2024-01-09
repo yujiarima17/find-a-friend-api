@@ -54,7 +54,7 @@ export class RegisterUseCase {
 		}
 
 		const response = await findCityAndStateByCep(cep);
-        console.log(response)
+       
 		if (!response) {
 			throw new InvalidCepError();
 		}
