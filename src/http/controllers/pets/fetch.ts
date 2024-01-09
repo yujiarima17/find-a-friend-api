@@ -14,25 +14,24 @@ export async function fetch(request: FastifyRequest, reply: FastifyReply) {
 		state: z.string().optional(),
 		age: PetAgeEnum.optional(),
 		size: PetSizeEnum.optional(),
-		energyLevel: PetEnergyEnum.optional(),
-		dependencyLevel: PetDependencyLevelEnum.optional(),
+		energy: PetEnergyEnum.optional(),
+		dependency_level: PetDependencyLevelEnum.optional(),
 	});
 
-	const { age, dependencyLevel, energyLevel, size,city,state } = fetchQuerySchema.parse(
-		request.query
-	);
+	const { age, dependency_level, energy, size, city, state } =
+		fetchQuerySchema.parse(request.query);
 
 	try {
 		const fetchPetsByCharacteristicsUseCase =
 			MakeFetchPetsByCharacteristicsUseCase();
 
 		const { pets } = await fetchPetsByCharacteristicsUseCase.execute({
-            city,
+			city,
 			state,
 			age,
 			size,
-			dependencyLevel,
-			energyLevel,
+			dependency_level,
+			energy,
 		});
 
 		return reply.status(200).send({ pets });

@@ -38,7 +38,15 @@ export class InMemoryOrgsRepository implements OrgsRepository {
 
 		return orgLocation;
 	}
+	async findById(id: string) {
+		const org = this.items.find((item) => item.id === id);
 
+		if (!org) {
+			return null;
+		}
+
+		return org;
+	}
 	async findByAdressAndNumber(adress: string, adressNumber: number) {
 		const org = this.items.find(
 			(item) => item.adress === adress && item.adress_number === adressNumber
@@ -69,7 +77,7 @@ export class InMemoryOrgsRepository implements OrgsRepository {
 
 		return org;
 	}
-	
+
 	async findByStateAndCity(city: string, state?: string) {
 		const orgs = this.items.filter(
 			(item) => item.state === state && item.city === city

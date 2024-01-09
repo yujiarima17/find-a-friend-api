@@ -12,6 +12,8 @@ export interface OrgsRepository {
 
 	findAdressById(id: string): Promise<OrgLocation | null>;
 
+	findById(id: string): Promise<Org | null>;
+
 	findByWhatsapp(whatsapp: string): Promise<Org | null>;
 
 	findByAdressAndNumber(

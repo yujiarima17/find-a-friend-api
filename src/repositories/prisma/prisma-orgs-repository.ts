@@ -28,6 +28,12 @@ export class PrismaOrgsRepository implements OrgsRepository {
 
 		return orgLocation;
 	}
+	async findById(id: string) {
+		const org = await prisma.org.findUnique({
+			where: { id },
+		});
+		return org;
+	}
 	async findByWhatsapp(whatsapp: string) {
 		const org = await prisma.org.findUnique({
 			where: {
@@ -57,10 +63,7 @@ export class PrismaOrgsRepository implements OrgsRepository {
 
 		return org;
 	}
-	async findByStateAndCity(
-		city: string ,
-		state?: string ,
-	) {
+	async findByStateAndCity(city: string, state?: string) {
 		const orgs = await prisma.org.findMany({
 			where: {
 				state,
@@ -69,7 +72,7 @@ export class PrismaOrgsRepository implements OrgsRepository {
 		});
 
 		const orgsId = orgs.map((org) => org.id);
-		
+
 		return orgsId;
 	}
 }
