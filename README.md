@@ -28,8 +28,6 @@ This project is a NodeJS API application that any user can adopt a pet from an O
   GET /:orgId/pets
 ```
 
-/pets
-
 #### Return the Pet details based on id
 
 ```http
@@ -89,8 +87,8 @@ To run the tests :
 
 ## Project Learning
 
-On this project I put myself on a challenge to practice my knowledge that i acquired from the last project, Gym Pass API. I think that i need to improve a lot about some points like JWT and 
-code tests possibilities. Although I could to improve during the whole process development.
+On this project I put myself on a challenge to practice my knowledge that i acquired from the last project, Gym Pass API. I think that i need to improve a lot about some points like JWT and code tests possibilities. Although I could to improve during the whole process development.
+I used also Insomnia to simulate a client making some requests to back-end.
 
 ## 🔗 Links
 
