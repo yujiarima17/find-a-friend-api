@@ -1,14 +1,17 @@
+import { InMemoryOrgsRepository } from "@/repositories/in-memory/in-memory-orgs-repository";
 import { InMemoryPetsRepository } from "@/repositories/in-memory/in-memory-pets-repository";
+import { OrgsRepository } from "@/repositories/orgs-repository";
 import { PetsRepository } from "@/repositories/pets-repository";
 import { RegisterUseCase } from "@/use-cases/pets/register";
 import { it, describe, expect, beforeEach } from "vitest";
 
 describe("Register Use Case", () => {
-	let petsRepository: PetsRepository;
+	let orgsRepository: InMemoryOrgsRepository;
+	let petsRepository: InMemoryPetsRepository;
 	let sut: RegisterUseCase;
 
 	beforeEach(() => {
-		petsRepository = new InMemoryPetsRepository();
+		petsRepository = new InMemoryPetsRepository(orgsRepository);
 		sut = new RegisterUseCase(petsRepository);
 	});
 

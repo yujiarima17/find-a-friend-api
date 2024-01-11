@@ -2,7 +2,6 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { OrgsAlreadyExistsError } from "@/use-cases/errors/org-already-exists-error";
 import { MakeRegisterUseCase } from "@/use-cases/factories/orgs/make-register-use-case";
-import { findCityAndStateByCep } from "@/utils/find-city-and-state-by-cep";
 
 export async function register(request: FastifyRequest, reply: FastifyReply) {
 	const phoneRegex = new RegExp(

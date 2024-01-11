@@ -11,8 +11,8 @@ describe("Get Pet Details Use Case", () => {
 	let sut: GetPetsDetailsUseCase;
 
 	beforeEach(() => {
-		petsRepository = new InMemoryPetsRepository();
 		orgsRepository = new InMemoryOrgsRepository();
+		petsRepository = new InMemoryPetsRepository(orgsRepository);
 		sut = new GetPetsDetailsUseCase(petsRepository, orgsRepository);
 	});
 
@@ -20,6 +20,8 @@ describe("Get Pet Details Use Case", () => {
 		const org = await orgsRepository.create({
 			adress: "Avenida Paulista",
 			adress_number: 10,
+			state: "SP",
+			city: "São Paulo",
 			cep: "00000-000",
 			owner: "Jimmy Arima",
 			email: "pet@example.com",

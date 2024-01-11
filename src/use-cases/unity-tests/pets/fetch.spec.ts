@@ -15,7 +15,7 @@ describe("Fetch pets by their characteristics", () => {
 	beforeEach(async () => {
 		orgsRepository = new InMemoryOrgsRepository();
 		petsRepository = new InMemoryPetsRepository(orgsRepository);
-		sut = new FetchPetsByCharacteristicsUseCase(petsRepository, orgsRepository);
+		sut = new FetchPetsByCharacteristicsUseCase(petsRepository);
 
 		orgsRepository.create({
 			id: orgId,
