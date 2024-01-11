@@ -1,17 +1,97 @@
-### Regras da aplicação
+# Find a Friend API
 
-- [ X ] Deve ser possível cadastrar um pet
-- [ X ] Deve ser possível listar todos os pets disponíveis para adoção em uma cidade
-- [ X ] Deve ser possível filtrar pets por suas características
-- [ X ] Deve ser possível visualizar detalhes de um pet para adoção
-- [ X ] Deve ser possível se cadastrar como uma ORG
-- [ X ] Deve ser possível realizar login como uma ORG
+This project is a NodeJS API application that any user can adopt a pet from an Org. Its possible to register an Org, fetch pets based on filters, register a pet, authenticate an org.
 
-### Regras de negócio
+## API Docs
 
-- [ X ] Para listar os pets, obrigatoriamente precisamos informar a cidade
-- [ X ] Uma ORG precisa ter um endereço e um número de WhatsApp
-- [ X ] Um pet deve estar ligado a uma ORG
-- [ ] O usuário que quer adotar, entrará em contato com a ORG via WhatsApp
-- [ X ] Todos os filtros, além da cidade, são opcionais
-- [ X ] Para uma ORG acessar a aplicação como admin, ela precisa estar logada
+#### Return the own Org details.
+
+```http
+  GET /details
+```
+
+#### Register an Org.
+
+```http
+  POST /orgs
+```
+
+#### Authenticate an Org.
+
+```http
+  POST /sessions
+```
+
+#### Register a Org Pet
+
+```http
+  GET /:orgId/pets
+```
+
+/pets
+
+#### Return the Pet details based on id
+
+```http
+  GET /pets/:petId
+```
+
+#### Return all Pets
+
+```http
+  GET /pets
+```
+
+#### Return Pets based on a filter of query params values .
+
+```http
+  GET /pets?q=search
+```
+
+## Running Locally
+
+Clone the Project.
+
+```bash
+  git clone https://github.com/yujiarima17/find-a-friend-api
+```
+
+Change to the project dir.
+
+```bash
+  cd find-a-friend-api
+```
+
+Dependencies install.
+
+```bash
+  npm install
+```
+
+Initialize the server in a dev environment.
+
+```bash
+  npm run start:dev
+```
+
+## Tests Running
+
+To run the tests :
+
+```bash
+  // runs all unity tests
+  npm run test
+```
+
+## Stack utilizada
+
+**Back-end:** Node, Fastify ( Fastify Cookie, Fastify JWT), Vitest, Prisma, Zod;
+
+## Project Learning
+
+On this project I put myself on a challenge to practice my knowledge that i acquired from the last project, Gym Pass API. I think that i need to improve a lot about some points like JWT and 
+code tests possibilities. Although I could to improve during the whole process development.
+
+## 🔗 Links
+
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/yuji-arima-7b7059209/)
