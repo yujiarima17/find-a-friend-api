@@ -15,6 +15,11 @@ enum PetSize {
   Grande
 }
 
+enum Role {
+  ADMIN
+  MEMBER
+}
+
 enum PetAge {
   Filhote
   Adulto
@@ -41,6 +46,7 @@ model Org {
   cep           String
   state         String
   city          String
+  role          Role     @default(ADMIN)
   created_at    DateTime @default(now())
   email         String   @unique
   password_hash String
